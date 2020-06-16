@@ -1,0 +1,68 @@
+var express = require("express");
+var app = express();
+var bodyParser = require("body-parser");
+var mongoose = require("mongoose");
+
+//fix MongoDB depreciation warnings
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useUnifiedTopology', true);
+mongoose.connect("mongodb://localhost/Basic-REST-Blog");
+
+//Add this to serve the public folder for CSS
+app.use(express.static("public"));
+
+//tell express to use body-parser
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+
+
+//Add this to make .ejs files the default (can leave off the .ejs)
+app.set("view engine", "ejs");
+
+//Create Blog Schema
+var blogSchema = new mongoose.Schema({
+	title: String,
+	image: String,
+	body: String,
+	//Date.now has a default of the current time
+	created: {type: Date, default: Date.now}
+});
+
+var Blog = mongoose.model("Blog", blogSchema);
+
+//RESTful Routes
+
+//Redirect Root to /blogs
+app.get("/", function(req, res){
+	res.redirect("/blogs");
+});
+
+//Index
+app.get("/blogs", function(req, res){
+	Blog.find({}, function(err, blogs) {
+		if(err) {
+			console.log(err);
+		} else {
+			res.render("index", {blogs: blogs});
+		}
+	});
+});
+
+//New
+
+//Create
+
+//Show
+
+//Edit
+
+//Update
+
+//Destroy
+
+
+
+app.listen(3000, function() {
+	console.log("Server is now listening on port 3000");
+});
