@@ -50,10 +50,33 @@ app.get("/blogs", function(req, res){
 });
 
 //New
+app.get("/blogs/new", function(req, res){
+	res.render("new");
+});
 
 //Create
+app.post("/blogs", function(req, res){
+	//Create Blog
+	Blog.create(req.body.blog, function(err, newBlog){
+		if(err) {
+			res.render("new");
+		} else {
+			//Redirect
+			res.redirect("/blogs");
+		}
+	});
+});
 
 //Show
+app.get("/blogs/:id", function(req, res){
+	Blog.find({_id: req.params.id}, function(err, foundBlog) {
+		if(err) {
+			res.redirect("/blogs");
+		} else {
+			res.render("show", {blog: foundBlog[0]});
+		}
+	});
+});
 
 //Edit
 
