@@ -10,9 +10,15 @@
 			<%= blog.title %>
 		</h2>
 		<img src="<%= blog.image %>">
-		<span> <%= blog.created %></span>
+		<div> 
+			<em><%= blog.created.toDateString() %></em>
+		</div>
 		<p>
-			<%= blog.body %>
+			<%= blog.body.substring(0,100) %>
+			<!-- only create ellipsis if body is longer than 100 char length  -->
+			<% if(blog.body.length > 100) { %>
+			...
+			<%} %>
 		</p>
 		<a href="/blogs/<%= blog._id%>">Read More</a>
 	</div>

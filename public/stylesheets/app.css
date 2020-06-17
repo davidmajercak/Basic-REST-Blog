@@ -1,9 +1,5 @@
 body {
-	background-color: #000;
-	color: #FFF;
-	padding-top: 7em;
-}
-
-p, span {
+	background-color: #FFFF;
 	color: #000;
+	padding-top: 7em;
 }
