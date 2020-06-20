@@ -105,6 +105,18 @@ app.put("/blogs/:id", function(req, res){
 
 
 //Destroy
+app.delete("/blogs/:id", function(req, res){
+	//Destroy Blog
+	Blog.findByIdAndRemove(req.params.id, function(err){
+		//Redirect - same redirect if successful or not in this case
+		if(err) {
+			res.redirect("/blogs");
+		} else {
+			res.redirect("/blogs/");
+		}
+	})
+	
+});
 
 
 

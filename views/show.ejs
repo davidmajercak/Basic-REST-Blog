@@ -3,6 +3,13 @@
 <div class="ui main text container segment">
 	<div class="ui huge header">
 		<%= blog.title %>
+		<form action="/blogs/<%= blog._id %>?_method=DELETE" method="POST">
+			<button class="ui right floated red basic button">
+				Delete Post
+			</button>
+		</form>
+		<a class="ui right floated orange basic button" href="/blogs/<%= blog._id %>/edit">Edit Post</a>
+		<!-- method-overide used to create a DELETE request with the form -->
 	</div>
 	<div class="ui top attached segment">
 		<div class="item">

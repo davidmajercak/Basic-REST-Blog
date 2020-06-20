@@ -3,3 +3,7 @@ body {
 	color: #000;
 	padding-top: 7em;
 }
+
+form {
+	display: inline;
+}
