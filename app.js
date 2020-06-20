@@ -3,6 +3,7 @@ var app = express();
 var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
 var methodOverride = require("method-override");
+var expressSanitizer = require("express-sanitizer");
 
 //fix MongoDB depreciation warnings
 mongoose.set('useNewUrlParser', true);
@@ -16,6 +17,9 @@ app.use(express.static("public"));
 app.use(bodyParser.urlencoded({
   extended: true
 }));
+
+//use expressSanitizer must come after use bodyParser
+app.use(expressSanitizer());
 
 app.use(methodOverride("_method"));
 
@@ -59,6 +63,10 @@ app.get("/blogs/new", function(req, res){
 
 //Create
 app.post("/blogs", function(req, res){
+	
+	//Sanitize input
+	req.body.blog.body = req.sanitize(req.body.blog.body);
+	
 	//Create Blog
 	Blog.create(req.body.blog, function(err, newBlog){
 		if(err) {
@@ -94,6 +102,8 @@ app.get("/blogs/:id/edit", function(req, res){
 
 //Update
 app.put("/blogs/:id", function(req, res){
+	//Potentially add middleware to take of user input sanitization
+	req.body.blog.body = req.sanitize(req.body.blog.body);
 	Blog.findByIdAndUpdate(req.params.id, req.body.blog, function(err, updatedBlog){
 		if(err) {
 			res.redirect("/blogs");
